@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from app.api.router import router
 from app.services.logger import setup_logger
 from app.api.error_utilities import ErrorResponse
+from app.services.env_utils import get_env_variable
 
 import os
 from dotenv import load_dotenv, find_dotenv

@@ -1,7 +1,7 @@
 import os
 import unittest
 from unittest.mock import patch
-from app.api.env_utils import get_env_variable  # Adjusted import path
+from app.services.env_utils import get_env_variable  # Adjusted import path
 
 class TestEnvUtils(unittest.TestCase):
 
@@ -13,7 +13,7 @@ class TestEnvUtils(unittest.TestCase):
         value = get_env_variable("TEST_ENV_VAR")
         self.assertEqual(value, "value_from_env_file")
 
-    @patch("app.api.env_utils.secretmanager.SecretManagerServiceClient")
+    @patch("app.services.env_utils.secretmanager.SecretManagerServiceClient")
     def test_retrieve_from_google_cloud_secrets(self, mock_secret_client):
         """
         Test that the function retrieves the value from Google Cloud Secrets Manager
@@ -37,7 +37,7 @@ class TestEnvUtils(unittest.TestCase):
         # Validate the returned value
         self.assertEqual(value, "value_from_google_cloud")
 
-    @patch("app.api.env_utils.secretmanager.SecretManagerServiceClient")  # Adjusted patch path
+    @patch("app.services.env_utils.secretmanager.SecretManagerServiceClient")  # Adjusted patch path
     def test_raise_exception_when_secret_not_found(self, mock_secret_client):
         """
         Test that the function raises an exception when the secret is not found

@@ -3,7 +3,7 @@ from app.main import app
 from app.services.tool_registry import validate_inputs # there's no function called validare_inputs in tool_registry.py
 import pytest
 import os
-from app.api.env_utils import get_env_variable
+from app.services.env_utils import get_env_variable
 
 
 #export PYTHONPATH=/path/to/your/project:$PYTHONPATH
@@ -12,9 +12,9 @@ from app.api.env_utils import get_env_variable
 @pytest.fixture(scope='session', autouse=True)
 def set_env_vars():
     # Backup old values and set new ones
-    old_creds = get_env_variable('GOOGLE_APPLICATION_CREDENTIALS')
-    old_env_type = get_env_variable('ENV_TYPE')
-    old_project_id = get_env_variable('PROJECT_ID')
+    old_creds = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+    old_env_type = os.getenv('ENV_TYPE')
+    old_project_id = os.getenv('PROJECT_ID')
     # Set new values
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'local-auth.json'
     os.environ['ENV_TYPE'] = 'dev'
