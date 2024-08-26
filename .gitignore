@@ -162,3 +162,6 @@ cython_debug/
 **/env/
 **/key.txt
 **/local-auth.json
+
+# Ignore Json Key
+/Users/elsie/Documents/Internship/RadicalAI/kai-ai-backend-json-key/kai-new-feature-9e5ce993a2cd.json
