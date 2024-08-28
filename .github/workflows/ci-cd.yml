@@ -17,7 +17,7 @@ jobs:
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        project_id: your-google-cloud-project-id
+        project_id: kai-new-feature
         service_account_key: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS }}
         export_default_credentials: true
 
@@ -25,20 +25,35 @@ jobs:
       uses: google-github-actions/auth@v1
       with:
         credentials_json: ${{ secrets.GOOGLE_CLOUD_CREDENTIALS }}
+    
+    - name: Get Secrets from Google Cloud Secrets Manager
+      id: secrets
+      uses: google-github-actions/get-secretmanager-secrets@v1
+      with:
+        secrets: |
+          GOOGLE_API_KEY:projects/kai-new-feature/secrets/GOOGLE_API_KEY/versions/latest
+          PROJECT_ID:projects/kai-new-feature/secrets/PROJECT_ID/versions/latest
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
     - name: Build Docker image
       run: |
-        docker build -t gcr.io/your-google-cloud-project-id/your-app-name:$GITHUB_SHA .
+        docker build -t gcr.io/kai-new-feature/kai-backend-service:$GITHUB_SHA .
+        docker tag gcr.io/kai-new-feature/kai-backend-service:$GITHUB_SHA gcr.io/kai-new-feature/backend-service:latest
 
     - name: Push Docker image to Google Container Registry
       run: |
-        docker push gcr.io/your-google-cloud-project-id/your-app-name:$GITHUB_SHA
+        docker push gcr.io/kai-new-feature/kai-backend-service:$GITHUB_SHA
+        docker push gcr.io/kai-new-feature/kai-backend-service:latest
 
-    - name: Deploy to Cloud Run
+    - name: Deploy to Google Cloud Run
       run: |
-        gcloud run deploy your-service-name \
-          --image gcr.io/your-google-cloud-project-id/your-app-name:$GITHUB_SHA \
-          --region your-region \
+        gcloud run deploy kai-api \ 
+          --image gcr.io/kai-new-feature/kai-backend-service:$GITHUB_SHA \
+          --region us-central1 \
           --platform managed \
-          --allow-unauthenticated
-
+          --allow-unauthenticated \
+          --set-env-vars DATABASE_URL=${{ steps.secrets.outputs.DATABASE_URL }} \
+          --set-env-vars ANOTHER_SECRET=${{ steps.secrets.outputs.ANOTHER_SECRET }}
+          
