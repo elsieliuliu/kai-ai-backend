@@ -21,7 +21,7 @@ The `.env` file is used during local development to configure environment variab
 ENV_TYPE=dev
 GOOGLE_API_KEY=Your-google-key
 PROJECT_ID=your-project-id
-
+```
 ### Keep the `.env` file private
 
 Ensure it is listed in your `.gitignore` file.
