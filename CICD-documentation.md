@@ -48,3 +48,11 @@ Google Cloud Secrets Manager is used to securely store and manage sensitive envi
    - Paste the value of the environment variable.
 5. **Click Create**:
    - Save the secret.
+
+## Using Utility Function to Manage Environment Variables
+
+### Purpose of the Utility Function
+
+The utility function `get_env_varible` is designed to streamline the process of retrieving environment variables from both the `.env` file (for local development) and Google Cloud Secrets Manager (for production).
+
+This function attempts to retrieve environment variables in a secure and reliable manner. It first attempts to retrieve the environment variable from a local `.env` file. If the variable is not found there, the function then tries to retrieve it from Google Cloud Secret Manager.
