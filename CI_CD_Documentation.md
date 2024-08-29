@@ -1,10 +1,6 @@
----
-title: "[]{#_y4svjxfciiws .anchor}CI/CD Part 1 Documentation "
----
+# Overview 
 
-# Overview {#overview .unnumbered}
-
-# This document outlines the procedures and best practices for managing environment variables in our project. The system is designed to securely handle sensitive information, streamline configuration processes, and support both local development and production environments. {#this-document-outlines-the-procedures-and-best-practices-for-managing-environment-variables-in-our-project.-the-system-is-designed-to-securely-handle-sensitive-information-streamline-configuration-processes-and-support-both-local-development-and-production-environments. .unnumbered}
+This document outlines the procedures and best practices for managing environment variables in our project. The system is designed to securely handle sensitive information, streamline configuration processes, and support both local development and production environments. 
 
 # Table of Content {#table-of-content .unnumbered}
 
