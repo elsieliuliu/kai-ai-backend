@@ -40,9 +40,10 @@ jobs:
       - name: Build Docker Image
         run: |
           COMMIT_HASH=$(git rev-parse --short HEAD)
-          IMAGE_NAME=gcr.io/${{ env.PROJECT_ID }}/my-app:${COMMIT_HASH}
+          LOWERCASE_PROJECT_ID=$(echo ${{ env.PROJECT_ID }} | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME=gcr.io/${LOWERCASE_PROJECT_ID}/my-app:${COMMIT_HASH}
           docker build -t ${IMAGE_NAME} .
-          docker tag ${IMAGE_NAME} gcr.io/${{ env.PROJECT_ID }}/my-app:latest
+          docker tag ${IMAGE_NAME} gcr.io/${LOWERCASE_PROJECT_ID}/my-app:latest
   
       - name: Push Docker Image to GCR
         run: |
