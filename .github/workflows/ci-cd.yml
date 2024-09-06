@@ -50,8 +50,14 @@ jobs:
           docker push gcr.io/${{ env.PROJECT_ID }}/my-app:${COMMIT_HASH}
           docker push gcr.io/${{ env.PROJECT_ID }}/my-app:latest
 
+      - name: Enable Cloud Run API
+        run: |
+          gcloud config set project ${{ env.PROJECT_ID }}
+          gcloud services enable run.googleapis.com
+
       - name: Deploy to Google Cloud Run
         run: |
+          gcloud config set project ${{ env.PROJECT_ID }}
           gcloud run deploy my-app \
             --image gcr.io/${{ env.PROJECT_ID }}/my-app:latest \
             --platform managed \
@@ -59,3 +65,4 @@ jobs:
             --allow-unauthenticated \
             --set-env-vars "ENV=${{ env.ENV_TYPE }}" \
             --project ${{ env.PROJECT_ID }}
+
