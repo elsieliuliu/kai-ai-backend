@@ -64,4 +64,3 @@ jobs:
             --allow-unauthenticated \
             --set-env-vars "ENV=${{ env.ENV_TYPE }}" \
             --project ${{ env.PROJECT_ID }}
-
