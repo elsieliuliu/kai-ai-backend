@@ -40,24 +40,29 @@ jobs:
       - name: Build Docker Image
         run: |
           COMMIT_HASH=$(git rev-parse --short HEAD)
-          LOWERCASE_PROJECT_ID=$(echo ${{ env.PROJECT_ID }} | tr '[:upper:]' '[:lower:]')
-          IMAGE_NAME=gcr.io/${LOWERCASE_PROJECT_ID}/my-app:${COMMIT_HASH}
+          IMAGE_NAME=gcr.io/${{ env.PROJECT_ID }}/my-app:${COMMIT_HASH}
           docker build -t ${IMAGE_NAME} .
-          docker tag ${IMAGE_NAME} gcr.io/${LOWERCASE_PROJECT_ID}/my-app:latest
+          docker tag ${IMAGE_NAME} gcr.io/${{ env.PROJECT_ID }}/my-app:latest
   
       - name: Push Docker Image to GCR
         run: |
           COMMIT_HASH=$(git rev-parse --short HEAD)
-          LOWERCASE_PROJECT_ID=$(echo ${{ env.PROJECT_ID }} | tr '[:upper:]' '[:lower:]')
-          docker push gcr.io/${LOWERCASE_PROJECT_ID}/my-app:${COMMIT_HASH}
-          docker push gcr.io/${LOWERCASE_PROJECT_ID}/my-app:latest
+          docker push gcr.io/${{ env.PROJECT_ID }}/my-app:${COMMIT_HASH}
+          docker push gcr.io/${{ env.PROJECT_ID }}/my-app:latest
+
+      - name: Enable Cloud Run API
+        run: |
+          gcloud config set project ${{ env.PROJECT_ID }}
+          gcloud services enable run.googleapis.com
 
       - name: Deploy to Google Cloud Run
         run: |
+          gcloud config set project ${{ env.PROJECT_ID }}
           gcloud run deploy my-app \
-            --image gcr.io/${LOWERCASE_PROJECT_ID}/my-app:latest \
+            --image gcr.io/${{ env.PROJECT_ID }}/my-app:latest \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \
             --set-env-vars "ENV=${{ env.ENV_TYPE }}" \
             --project ${{ env.PROJECT_ID }}
+
