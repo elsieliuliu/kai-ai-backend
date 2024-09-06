@@ -54,7 +54,6 @@ jobs:
 
       - name: Deploy to Google Cloud Run
         run: |
-          gcloud config set project ${{ env.PROJECT_ID }}
           gcloud run deploy my-app \
             --image gcr.io/${LOWERCASE_PROJECT_ID}/my-app:latest \
             --platform managed \
