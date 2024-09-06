@@ -48,8 +48,10 @@ jobs:
       - name: Push Docker Image to GCR
         run: |
           COMMIT_HASH=$(git rev-parse --short HEAD)
-          docker push gcr.io/${{ env.PROJECT_ID }}/my-app:${COMMIT_HASH}
-          docker push gcr.io/${{ env.PROJECT_ID }}/my-app:latest
+          LOWERCASE_PROJECT_ID=$(echo ${{ env.PROJECT_ID }} | tr '[:upper:]' '[:lower:]')
+          docker push gcr.io/${LOWERCASE_PROJECT_ID}/my-app:${COMMIT_HASH}
+          docker push gcr.io/${LOWERCASE_PROJECT_ID}/my-app:latest
+
 
       - name: Deploy to Google Cloud Run
         run: |
