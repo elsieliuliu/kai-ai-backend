@@ -52,7 +52,6 @@ jobs:
           docker push gcr.io/${LOWERCASE_PROJECT_ID}/my-app:${COMMIT_HASH}
           docker push gcr.io/${LOWERCASE_PROJECT_ID}/my-app:latest
 
-
       - name: Deploy to Google Cloud Run
         run: |
           gcloud run deploy my-app \
